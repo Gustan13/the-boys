@@ -23,9 +23,39 @@ fila_t *cria_fila()
     return fila;
 }
 
+fila_t *destroi_fila(fila_t *f)
+{
+    nodo_t *aux;
+
+    while (f->ini != NULL)
+    {
+        aux = f->ini;
+        f->ini = aux->prox;
+        aux->prox = NULL;
+        aux = f->ini;
+    }
+
+    free(f->fim);
+    f->fim = NULL;
+    free(f->ini);
+    f->ini = NULL;
+    free(f);
+    f = NULL;
+    free(aux);
+    aux = NULL;
+    return f;
+}
+
+int fila_vazia(fila_t *f)
+{
+    return f->ini == NULL;
+}
+
 int main()
 {
     fila_t *fila = cria_fila();
-    printf("hej");
+    printf("cria fila %d\n", fila_vazia(fila));
+    fila = destroi_fila(fila);
+    printf("destroi fila\n");
     return 0;
 }
