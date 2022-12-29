@@ -1,16 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct nodo
+#define TAM 10
+
+typedef struct nodo_f
 {
-    int chave;
-    struct nodo *prox;
-} nodo_t;
+    int elem;
+    struct nodo_f *prox;
+} nodo_f_t;
 
 typedef struct fila
 {
-    nodo_t *ini;
-    nodo_t *fim;
+    nodo_f_t *ini;
+    nodo_f_t *fim;
     int tamanho;
 } fila_t;
 
@@ -25,7 +27,7 @@ fila_t *cria_fila()
 
 fila_t *destroi_fila(fila_t *f)
 {
-    nodo_t *aux;
+    nodo_f_t *aux;
 
     while (f->ini != NULL)
     {
@@ -46,38 +48,80 @@ fila_t *destroi_fila(fila_t *f)
     return f;
 }
 
-int fila_vazia(fila_t *f)
+int vazia_fila(fila_t *f)
 {
     return f->ini == NULL;
 }
 
+int tamanho_fila(fila_t *f)
+{
+    return f->tamanho;
+}
+
 int inserir_fila(fila_t *f, int elemento)
 {
-    nodo_t *nodo;
-    if (!(nodo = malloc(sizeof(nodo_t))))
+    nodo_f_t *nodo;
+    if (!(nodo = malloc(sizeof(nodo_f_t))))
         return 0;
 
-    nodo->chave = elemento;
+    nodo->elem = elemento;
     nodo->prox = NULL;
 
-    if (fila_vazia(f))
+    if (vazia_fila(f))
     {
         f->ini = nodo;
         f->fim = nodo;
+        f->tamanho++;
         return 1;
     }
 
     f->fim->prox = nodo;
     f->fim = nodo;
+
+    f->tamanho++;
     return 1;
+}
+
+int retira_fila(fila_t *f, int *elemento)
+{
+    nodo_f_t *aux;
+
+    if (vazia_fila(f))
+        return 0;
+
+    *elemento = f->ini->elem;
+    aux = f->ini->prox;
+    f->ini->prox = NULL;
+    f->ini = aux;
+
+    if (vazia_fila(f))
+        f->fim = NULL;
+
+    return 1;
+}
+
+void imprime_fila(fila *f)
+{
+    printf("hej");
 }
 
 int main()
 {
     fila_t *fila = cria_fila();
-    printf("cria fila %d\n", fila_vazia(fila));
-    inserir_fila(fila, 5);
-    printf("insere na fila %d\n", fila_vazia(fila));
+    int elemento;
+    
+    srand(10);
+
+    printf("cria fila %d\n", vazia_fila(fila));
+
+    for (int i = 0; i < TAM; i++)
+        inserir_fila(fila, rand() % 1000);
+
+    printf("insere na fila %d\n", vazia_fila(fila));
+    printf("tamanho da fila %d\n", tamanho_fila(fila));
+
+    retira_fila(fila, &elemento);
+
     fila = destroi_fila(fila);
     printf("destroi fila");
     return 0;
