@@ -100,7 +100,7 @@ int retira_fila(fila_t *f, int *elemento)
     return 1;
 }
 
-void imprime_fila(fila *f)
+void imprime_fila(fila_t *f)
 {
     printf("hej");
 }
