@@ -58,7 +58,7 @@ int tamanho_fila(fila_t *f)
     return f->tamanho;
 }
 
-int inserir_fila(fila_t *f, int elemento)
+int insere_fila(fila_t *f, int elemento)
 {
     nodo_f_t *nodo;
     if (!(nodo = malloc(sizeof(nodo_f_t))))
@@ -102,27 +102,29 @@ int retira_fila(fila_t *f, int *elemento)
 
 void imprime_fila(fila_t *f)
 {
-    printf("hej");
+    nodo_f_t *nodo;
+    for (nodo = f->ini; nodo != NULL; nodo = nodo->prox)
+        printf("%d\n", nodo->elem);
 }
 
-int main()
+/*int main()
 {
     fila_t *fila = cria_fila();
-    int elemento;
+    int i;
     
     srand(10);
 
     printf("cria fila %d\n", vazia_fila(fila));
 
-    for (int i = 0; i < TAM; i++)
+    for (i = 0; i < TAM; i++)
         inserir_fila(fila, rand() % 1000);
 
     printf("insere na fila %d\n", vazia_fila(fila));
     printf("tamanho da fila %d\n", tamanho_fila(fila));
 
-    retira_fila(fila, &elemento);
+    imprime_fila(fila);
 
     fila = destroi_fila(fila);
     printf("destroi fila");
     return 0;
-}
+}*/
